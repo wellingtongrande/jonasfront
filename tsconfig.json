@@ -2,6 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "noImplicitAny": false,
     "strictPropertyInitialization": false, // para não precisar inicializar os objetos ?
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",

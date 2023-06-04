@@ -1,10 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -33,18 +33,21 @@ import localePt from '@angular/common/locales/pt';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { NgxMaskModule } from 'ngx-mask';
-import { ProductComponent } from './page/product/product.component';
 import { SaleDialogComponent } from './page/sale-dialog/sale-dialog.component';
 import { SaleComponent } from './page/sale/sale.component';
 import { SalesListComponent } from './page/sales-list/sales-list.component';
 import { PaymentService } from './service/payment.service';
-import { ProductService } from './service/product.service';
 import { ConfirmaDeleteComponent } from './util/confirma-delete/confirma-delete.component';
 import { SaleService } from './service/sale.service';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { LoginService } from './service/login.service';
 import { LoginComponent } from './page/login/login.component';
-import { HttpInterceptorModule } from './service/headerInterceptor.service';
+import { ProdutoComponent } from './page/produto/produto.component';
+import { ProdutoService } from './service/produto.service';
+import { ClienteComponent } from './page/cliente/cliente.component';
+import { FuncionarioComponent } from './page/funcionario/funcionario.component';
+import { ClienteService } from './service/cliente.service';
+
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -55,11 +58,13 @@ registerLocaleData(localePt, 'pt-BR');
     ToggleDirective,
     HomeComponent,
     ConfirmaDeleteComponent,
-    ProductComponent,
     SaleComponent,
     SaleDialogComponent,
     SalesListComponent,
-    LoginComponent
+    LoginComponent,
+    ProdutoComponent,
+    ClienteComponent,
+    FuncionarioComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +88,7 @@ registerLocaleData(localePt, 'pt-BR');
     MatGridListModule,
     FormsModule,
     CurrencyMaskModule,
-    HttpInterceptorModule,//setar token no header
+    FormsModule,
 
     MatDatepickerModule,
     HttpClientModule,
@@ -100,24 +105,27 @@ registerLocaleData(localePt, 'pt-BR');
     ),
   ],
   providers: [
-    ProductService,
     PaymentService,
     SaleService,
     LoginService,
-    //informar formato da data local
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    ProdutoService,
+    ClienteService,
+
+    // //informar formato da data local
+    // { provide: LOCALE_ID, useValue: 'pt-BR' },
+
     // { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     // {
     //   provide: LOCALE_ID,
     //   useValue: 'pt'
     // },
 
-    // /* if you don't provide the currency symbol in the pipe, 
-    // this is going to be the default symbol (R$) ... */
-    // {
-    //   provide: DEFAULT_CURRENCY_CODE,
-    //   useValue: 'BRL'
-    // }
+    /* if you don't provide the currency symbol in the pipe,
+    this is going to be the default symbol (R$) ... */
+    {
+      provide: DEFAULT_CURRENCY_CODE,
+      useValue: 'BRL'
+    }
   ],
   bootstrap: [AppComponent]
 })

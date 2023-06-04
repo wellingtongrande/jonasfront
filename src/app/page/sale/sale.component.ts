@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ProductService } from 'src/app/service/product.service';
+import { ProdutoService } from 'src/app/service/produto.service';
 import { SaleService } from 'src/app/service/sale.service';
 import { SaleDialogComponent } from '../sale-dialog/sale-dialog.component';
 import { ProductSold } from './productSold';
@@ -16,7 +16,7 @@ export class SaleComponent implements OnInit {
 
   productsSolds: ProductSold[] = [];
   formAddItem: FormGroup;
-  //ordem das colunas no html 
+  //ordem das colunas no html
   ordemColunasTabela = ['id', 'quantity', 'name', 'price', 'priceTotal'];
   totalElementos = 0;
   pagina = 0;
@@ -28,7 +28,7 @@ export class SaleComponent implements OnInit {
   pagar: any;
 
   constructor(
-    private productService: ProductService,
+    private produtoService: ProdutoService,
     private saleService: SaleService,
     private formBilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -104,12 +104,12 @@ export class SaleComponent implements OnInit {
 
   adicionarItem() {
     const formValues = this.formAddItem.value;
-    this.productService.findProductByIdActive(formValues.id).subscribe((response) => {
-      const total = response.price * formValues.quantidade;
+    this.produtoService.findProdutoByIdActive(formValues.id).subscribe((response) => {
+      const total = response.preco * formValues.quantidade;
       const productSold = new ProductSold(
         null,
         response,
-        response.price,
+        response.preco,
         total,
         formValues.quantidade
       );

@@ -3,23 +3,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ProductService } from 'src/app/service/product.service';
+import { ProdutoService } from 'src/app/service/produto.service';
 import { ConfirmaDeleteComponent } from 'src/app/util/confirma-delete/confirma-delete.component';
-import { Product } from './product';
-import parseMoney from 'parse-money';
+import { Produto } from './produto';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  selector: 'app-produto',
+  templateUrl: './produto.component.html',
+  styleUrls: ['./produto.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProdutoComponent implements OnInit {
 
   formulario: FormGroup;
   //lista de products para exiboir
-  products: Product[] = [];
-  //ordem das colunas no html 
-  ordemColunasTabela = ['id', 'name', 'price', 'active', 'excluir', 'editar'];
+  produtos: Produto[] = [];
+  //ordem das colunas no html
+  ordemColunasTabela = ['id', 'nome', 'descricao', 'preco', 'excluir', 'editar'];
   totalElementos = 0;
   pagina = 0;
   tamanho = 5;
@@ -27,7 +26,7 @@ export class ProductComponent implements OnInit {
   mensagemErros: String[] = []; //array de strings dos erros retornados do backend
 
   constructor(
-    private productService: ProductService,
+    private produtoService: ProdutoService,
     private formBilder: FormBuilder,
     private snackBar: MatSnackBar,
     public dialog: MatDialog
@@ -42,14 +41,14 @@ export class ProductComponent implements OnInit {
     //pegar os dados do formulário
     const formValues = this.formulario.value;
     // cria e adiciona no objeto
-    const product: Product = new Product(
+    const produto: Produto = new Produto(
       formValues.id,
-      formValues.name,
-      parseMoney(formValues.price)?.amount.toFixed(2),
-      formValues.active);
+      formValues.nome,
+      formValues.descricao,
+      formValues.preco);
 
     if (formValues.id) {
-      this.productService.update(product).subscribe(resposta => {
+      this.produtoService.update(produto).subscribe(resposta => {
         this.listarProductes(this.pagina, this.tamanho);
         // exibir mensagem snackbar
         this.snackBar.open('Produto alterado com sucesso!', 'Sucesso', {
@@ -65,7 +64,7 @@ export class ProductComponent implements OnInit {
       })
     } else {
       // cria e adiciona no objeto
-      this.productService.save(product).subscribe(resposta => {
+      this.produtoService.save(produto).subscribe(resposta => {
         this.listarProductes(this.pagina, this.tamanho);
         // exibir mensagem snackbar
         this.snackBar.open('Produto salvo com sucesso!', 'Sucesso', {
@@ -86,9 +85,9 @@ export class ProductComponent implements OnInit {
     this.formulario = this.formBilder.group({
       //validando os dados do formulário
       id: [null, Validators.nullValidator],
-      name: [null, [Validators.minLength(3), Validators.maxLength(50)]],
-      price: [null, [Validators.minLength(1), Validators.maxLength(6)]],
-      active: [null, Validators.required],
+      nome: [null, [Validators.minLength(1), Validators.maxLength(50)]],
+      descricao: [null, [Validators.minLength(1), Validators.maxLength(50)]],
+      preco: [null, [Validators.minLength(1), Validators.maxLength(6)]],
     })
   }
 
@@ -97,15 +96,15 @@ export class ProductComponent implements OnInit {
   }
 
   listarProductes(pagina: number, tamanho: number) {// definir a primeira página e o tamanho inicial
-    this.productService.list(pagina, tamanho).subscribe((response) => {
-      this.products = response.content; // pegar o conteudo do pag
+    this.produtoService.list(pagina, tamanho).subscribe((response) => {
+      this.produtos = response.content; // pegar o conteudo do pag
       this.totalElementos = response.totalElements;// pegar o total de elementos
       this.pagina = response.number;// pegar o numero de paginas
     });
   }
 
   private excluir(id: number) {
-    this.productService.delete(id).subscribe((response) => {
+    this.produtoService.delete(id).subscribe((response) => {
       this.ngOnInit();
       this.mensagemErros = [];
       // exibir mensagem snackbar
@@ -119,12 +118,12 @@ export class ProductComponent implements OnInit {
   }
 
   editar(id: number) {
-    this.productService.findProductById(id).subscribe((response) => {
+    this.produtoService.findProdutoById(id).subscribe((response) => {
       // cria e adiciona no objeto
       this.formulario.controls.id.setValue(id);
-      this.formulario.controls.name.setValue(response.name);
-      this.formulario.controls.price.setValue((response.price+"").replace(".",","));
-      this.formulario.controls['active'].setValue(response.active?'true':'false');
+      this.formulario.controls.nome.setValue(response.nome);
+      this.formulario.controls.descricao.setValue(response.descricao);
+      this.formulario.controls.preco.setValue((response.preco+"").replace(".",","));
     })
   }
 

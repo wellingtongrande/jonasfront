@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from 'src/app/service/product.service';
+import { ProdutoService } from 'src/app/service/produto.service';
 import { SaleService } from 'src/app/service/sale.service';
-import { Product } from '../product/product';
+import { Produto } from '../produto/produto';
 import { Sale } from '../sale/sale';
 
 @Component({
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private saleService: SaleService,
-    private productService: ProductService
+    private produtoService: ProdutoService
   ) { }
 
   ngOnInit() {
@@ -46,13 +46,13 @@ export class HomeComponent implements OnInit {
   }
 
   totalProdutos() {
-    this.productService.totalProdutos().subscribe((response) => {
+    this.produtoService.totalProdutos().subscribe((response) => {
       this.produtosCadastrados = response;
     })
   }
 
   totalProdutosAtivos() {
-    this.productService.totalProdutosAtivos().subscribe((response) => {
+    this.produtoService.totalProdutosAtivos().subscribe((response) => {
       this.produtosAtivos = response;
     })
   }
