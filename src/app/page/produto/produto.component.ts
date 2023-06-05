@@ -102,16 +102,24 @@ export class ProdutoComponent implements OnInit {
 
     montarFormulario() {
         delete this.formulario;
-        this.formulario = this.formBilder.group({
-            //validando os dados do formulário
-            id: [null, Validators.nullValidator],
-            nome: [null, [Validators.minLength(1), Validators.maxLength(50)]],
-            descricao: [
-                null,
-                [Validators.minLength(1), Validators.maxLength(50)],
-            ],
-            preco: [null, [Validators.minLength(1), Validators.maxLength(6)]],
-        });
+        setTimeout(() => {
+            this.formulario = this.formBilder.group({
+                //validando os dados do formulário
+                id: [null, Validators.nullValidator],
+                nome: [
+                    null,
+                    [Validators.minLength(1), Validators.maxLength(50)],
+                ],
+                descricao: [
+                    null,
+                    [Validators.minLength(1), Validators.maxLength(50)],
+                ],
+                preco: [
+                    null,
+                    [Validators.minLength(1), Validators.maxLength(6)],
+                ],
+            });
+        }, 500);
     }
 
     listarProductes(pagina: number, tamanho: number) {
