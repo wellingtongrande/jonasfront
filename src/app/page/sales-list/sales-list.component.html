@@ -21,42 +21,64 @@
                     <mat-table #table [dataSource]="sales">
                         <!--- Note that these columns can be defined in any order.
                             The actual rendered columns are set as a property on the row definition" -->
-                
+
                         <!-- Position Column -->
                         <ng-container matColumnDef="id">
-                            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                            <mat-header-cell *matHeaderCellDef>
+                                ID
+                            </mat-header-cell>
                             <mat-cell *matCellDef="let element">
                                 {{ element.id }}
                             </mat-cell>
                         </ng-container>
-                
+
                         <!-- Name Column -->
                         <ng-container matColumnDef="amount">
-                            <mat-header-cell *matHeaderCellDef> Valor </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{getTotal(element.itens) | currency:'BRL'}} </mat-cell>
-                        </ng-container>
-                
-                        <!-- Weight Column -->
-                        <ng-container matColumnDef="payment">
-                            <mat-header-cell *matHeaderCellDef> Pagamento </mat-header-cell>
+                            <mat-header-cell *matHeaderCellDef>
+                                Valor
+                            </mat-header-cell>
                             <mat-cell *matCellDef="let element">
-                                {{ element.momentoPedido | date:'dd/MM/yyyy HH:mm' }}
+                                {{ getTotal(element.itens) | currency : "BRL" }}
                             </mat-cell>
                         </ng-container>
-                
+
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="payment">
+                            <mat-header-cell *matHeaderCellDef>
+                                Pagamento
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{
+                                    element.momentoPedido
+                                        | date : "dd/MM/yyyy HH:mm"
+                                }}
+                            </mat-cell>
+                        </ng-container>
+
                         <!-- Expanded Content Column - The detail row is made up of this one column -->
                         <ng-container matColumnDef="expandedDetail">
                             <mat-cell *matCellDef="let detail">
-                                    <ng-container *ngFor="let produto of detail.element.itens">
-                                       {{produto.quantidade}}x {{produto.produto.nome}} = {{produto.quantidade * produto.preco | currency:'BRL'}}
-                                       <br>
-                                    </ng-container>
-                                </mat-cell>
+                                <ng-container
+                                    *ngFor="let produto of detail.element.itens"
+                                >
+                                    {{ produto.quantidade }}x
+                                    {{ produto.produto.nome }}({{
+                                        produto.preco | currency : "BRL"
+                                    }}) =
+                                    {{
+                                        produto.quantidade * produto.preco
+                                            | currency : "BRL"
+                                    }}
+                                    <br />
+                                </ng-container>
+                            </mat-cell>
                         </ng-container>
-                
-                        <mat-header-row *matHeaderRowDef="ordemColunasTabela"></mat-header-row>
+
+                        <mat-header-row
+                            *matHeaderRowDef="ordemColunasTabela"
+                        ></mat-header-row>
                         <mat-row
-                            *matRowDef="let row; columns: ordemColunasTabela;"
+                            *matRowDef="let row; columns: ordemColunasTabela"
                             matRipple
                             class="element-row"
                             [class.expanded]="expandedElement == row"
@@ -69,7 +91,9 @@
                                 when: isExpansionDetailRow
                             "
                             [@detailExpand]="
-                                row.element == expandedElement ? 'expanded' : 'collapsed'
+                                row.element == expandedElement
+                                    ? 'expanded'
+                                    : 'collapsed'
                             "
                             style="overflow: hidden"
                         >
