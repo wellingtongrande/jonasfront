@@ -37,7 +37,7 @@
                                 <mat-form-field class="full-width" appearance="fill">
                                     <mat-label>idade</mat-label>
                                     <input formControlName="idade" matInput placeholder="Digite sua idade" minlength="1"
-                                        maxlength="3" required>
+                                        maxlength="3" required type="number">
                                 </mat-form-field>
 
                                 <mat-form-field class="full-width" appearance="fill">
@@ -47,7 +47,7 @@
 
                                 <mat-form-field class="full-width" appearance="fill">
                                     <mat-label>Senha</mat-label>
-                                    <input formControlName="senha" matInput placeholder="Digite sua senha" minlength="3"
+                                    <input type="password" formControlName="senha" matInput placeholder="Digite sua senha" minlength="3"
                                         maxlength="50" required>
                                 </mat-form-field>
 
@@ -61,7 +61,7 @@
                                 <div class="row justify-content-between">
                                     <div class="col-6">
                                         <!-- habilita/desabilita botão com o formulário validado -->
-                                        <button (click)="limparFormulario()" mat-raised-button>
+                                        <button type="button" (click)="limparFormulario()" mat-raised-button>
                                             <mat-icon>insert_drive_file</mat-icon>
                                             Limpar
                                         </button>

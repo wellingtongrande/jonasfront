@@ -2,15 +2,13 @@ export class ProductSold {
 
     id: any;
     product: any;
-    price: any;
-    priceTotal: any;
-    quantity: number;
+    preco: any;
+    quantidade: number;
 
     constructor(id: any, product: any, price: any, priceTotal: any, quantity: number) {
         this.id = id;
         this.product = product;
-        this.price = price;
-        this.priceTotal = priceTotal;
-        this.quantity = quantity;
+        this.preco = price;
+        this.quantidade = quantity;
     }
 }

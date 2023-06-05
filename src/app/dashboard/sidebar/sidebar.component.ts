@@ -1,23 +1,29 @@
-import { Component, HostBinding, Input, HostListener, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+    Component,
+    HostBinding,
+    Input,
+    HostListener,
+    ElementRef,
+} from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
-    selector: '[appSidebar]',
+    selector: "[appSidebar]",
     host: {
-        'class': 'c-sidebar c-sidebar-dark'
+        class: "c-sidebar c-sidebar-dark",
     },
-    templateUrl: './sidebar.component.html'
+    templateUrl: "./sidebar.component.html",
 })
 // tslint:disable: curly variable-name
 export class SidebarComponent {
-
-    @HostBinding('class.c-sidebar-show') _alwaysShow = false;
-    @HostBinding('class.c-sidebar-lg-show') _show = true;
+    @HostBinding("class.c-sidebar-show") _alwaysShow = false;
+    @HostBinding("class.c-sidebar-lg-show") _show = true;
     private _enableClickOutside = false;
     @Input()
-    @HostBinding('class.c-sidebar-fixed') fixed = true;
+    @HostBinding("class.c-sidebar-fixed")
+    fixed = true;
 
-    constructor(private eRef: ElementRef, private router: Router) { }
+    constructor(private eRef: ElementRef, private router: Router) {}
 
     toggle(): void {
         const smalScreen = window && window.innerWidth <= 992;
@@ -29,7 +35,7 @@ export class SidebarComponent {
                 this._show = true;
                 this._alwaysShow = true;
                 this._enableClickOutside = false;
-                setTimeout(() => this._enableClickOutside = true, 150);
+                setTimeout(() => (this._enableClickOutside = true), 150);
             }
         } else {
             if (this._show || this._alwaysShow) {
@@ -41,7 +47,7 @@ export class SidebarComponent {
         }
     }
 
-    @HostListener('document:click', ['$event'])
+    @HostListener("document:click", ["$event"])
     clickout(event: any) {
         if (this._alwaysShow && this._enableClickOutside) {
             if (this.eRef.nativeElement.contains(event.target)) {
@@ -52,10 +58,4 @@ export class SidebarComponent {
             }
         }
     }
-
-    public sair() {
-        localStorage.clear();
-        this.router.navigate(['login']);
-    }
-
 }

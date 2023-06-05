@@ -42,14 +42,14 @@
                                     <mat-label>Preço</mat-label>
                                     <span matPrefix>R$ &nbsp;</span>
                                     <input matInput formControlName="preco" mask="separator.2" thousandSeparator="."
-                                        placeholder="1.00,00" minlength="1" maxlength="1" required>
+                                        placeholder="1.00,00" minlength="1" maxlength="6" required>
 
                                 </mat-form-field>
 
                                 <div class="row justify-content-between">
                                     <div class="col-6">
                                         <!-- habilita/desabilita botão com o formulário validado -->
-                                        <button (click)="limparFormulario()" mat-raised-button>
+                                        <button type="button" (click)="limparFormulario()" mat-raised-button>
                                             <mat-icon>insert_drive_file</mat-icon>
                                             Limpar
                                         </button>

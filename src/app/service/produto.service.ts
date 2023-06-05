@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PaginacaoProduto } from '../page/produto/paginacaoProduto';
-import { Produto } from '../page/produto/produto';
+import { PaginacaoProduto } from '../models/paginacaoProduto';
+import { Produto } from '../models';
 
 @Injectable({
   providedIn: 'root'
