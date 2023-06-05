@@ -13,7 +13,7 @@ import { ConfirmaDeleteComponent } from "src/app/util/confirma-delete/confirma-d
     styleUrls: ["./cliente.component.scss"],
 })
 export class ClienteComponent implements OnInit {
-    formulario: FormGroup;
+    formulario: FormGroup | undefined;
     //lista de cliente para exibir
     clientes: Cliente[] = [];
     //ordem das colunas no html
@@ -47,7 +47,7 @@ export class ClienteComponent implements OnInit {
 
     submit() {
         //pegar os dados do formulário
-        const formValues = this.formulario.value;
+        const formValues = this.formulario?.value;
         // cria e adiciona no objeto
         const cliente: Cliente = new Cliente(
             formValues.id,
@@ -70,8 +70,7 @@ export class ClienteComponent implements OnInit {
                             duration: 2000,
                         }
                     );
-                    //limpar formulário
-                    this.formulario.reset();
+                    this.montarFormulario();
                 },
                 (errorResponse) => {
                     // exibir mensagem snackbar
@@ -93,8 +92,7 @@ export class ClienteComponent implements OnInit {
                             duration: 2000,
                         }
                     );
-                    //limpar formulário
-                    this.formulario.reset();
+                    this.montarFormulario();
                 },
                 (errorResponse) => {
                     // exibir mensagem snackbar
@@ -107,29 +105,37 @@ export class ClienteComponent implements OnInit {
     }
 
     montarFormulario() {
-        this.formulario = this.formBilder.group({
-            //validando os dados do formulário
-            id: [null, Validators.nullValidator],
-            nome: [null, [Validators.minLength(2), Validators.maxLength(50)]],
-            idade: [null, [Validators.minLength(1), Validators.maxLength(2)]],
-            telefone: [
-                null,
-                [Validators.minLength(1), Validators.maxLength(12)],
-            ],
-            senha: [null, [Validators.minLength(3), Validators.maxLength(20)]],
-            email: [
-                null,
-                [
-                    Validators.minLength(4),
-                    Validators.maxLength(30),
-                    Validators.email,
+        delete this.formulario;
+        setTimeout(() => {
+            this.formulario = this.formBilder.group({
+                //validando os dados do formulário
+                id: [null, Validators.nullValidator],
+                nome: [
+                    null,
+                    [Validators.minLength(2), Validators.maxLength(50)],
                 ],
-            ],
-        });
-    }
-
-    limparFormulario() {
-        this.formulario.reset();
+                idade: [
+                    null,
+                    [Validators.minLength(1), Validators.maxLength(2)],
+                ],
+                telefone: [
+                    null,
+                    [Validators.minLength(1), Validators.maxLength(12)],
+                ],
+                senha: [
+                    null,
+                    [Validators.minLength(3), Validators.maxLength(20)],
+                ],
+                email: [
+                    null,
+                    [
+                        Validators.minLength(4),
+                        Validators.maxLength(30),
+                        Validators.email,
+                    ],
+                ],
+            });
+        }, 500);
     }
 
     listarClientes(pagina: number, tamanho: number) {
@@ -161,12 +167,12 @@ export class ClienteComponent implements OnInit {
     editar(id: number) {
         this.clienteService.findClienteById(id).subscribe((response) => {
             // cria e adiciona no objeto
-            this.formulario.controls.id.setValue(id);
-            this.formulario.controls.nome.setValue(response.nome);
-            this.formulario.controls.idade.setValue(response.idade);
-            this.formulario.controls.telefone.setValue(response.telefone);
-            this.formulario.controls.senha.setValue(response.senha);
-            this.formulario.controls.email.setValue(response.email);
+            this.formulario?.controls.id.setValue(id);
+            this.formulario?.controls.nome.setValue(response.nome);
+            this.formulario?.controls.idade.setValue(response.idade);
+            this.formulario?.controls.telefone.setValue(response.telefone);
+            this.formulario?.controls.senha.setValue(response.senha);
+            this.formulario?.controls.email.setValue(response.email);
         });
     }
 

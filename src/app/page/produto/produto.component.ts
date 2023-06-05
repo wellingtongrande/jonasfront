@@ -13,7 +13,7 @@ import { ConfirmaDeleteComponent } from "src/app/util/confirma-delete/confirma-d
     styleUrls: ["./produto.component.scss"],
 })
 export class ProdutoComponent implements OnInit {
-    formulario: FormGroup;
+    formulario: FormGroup | undefined;
     //lista de products para exiboir
     produtos: Produto[] = [];
     //ordem das colunas no html
@@ -45,7 +45,7 @@ export class ProdutoComponent implements OnInit {
 
     submit() {
         //pegar os dados do formulário
-        const formValues = this.formulario.value;
+        const formValues = this.formulario?.value;
         // cria e adiciona no objeto
         const produto: Produto = new Produto(
             formValues.id,
@@ -66,8 +66,7 @@ export class ProdutoComponent implements OnInit {
                             duration: 2000,
                         }
                     );
-                    //limpar formulário
-                    this.formulario.reset();
+                    this.montarFormulario();
                 },
                 (errorResponse) => {
                     // exibir mensagem snackbar
@@ -89,8 +88,7 @@ export class ProdutoComponent implements OnInit {
                             duration: 2000,
                         }
                     );
-                    //limpar formulário
-                    this.formulario.reset();
+                    this.montarFormulario();
                 },
                 (errorResponse) => {
                     // exibir mensagem snackbar
@@ -103,6 +101,7 @@ export class ProdutoComponent implements OnInit {
     }
 
     montarFormulario() {
+        delete this.formulario;
         this.formulario = this.formBilder.group({
             //validando os dados do formulário
             id: [null, Validators.nullValidator],
@@ -113,10 +112,6 @@ export class ProdutoComponent implements OnInit {
             ],
             preco: [null, [Validators.minLength(1), Validators.maxLength(6)]],
         });
-    }
-
-    limparFormulario() {
-        this.formulario.reset();
     }
 
     listarProductes(pagina: number, tamanho: number) {
@@ -152,10 +147,10 @@ export class ProdutoComponent implements OnInit {
     editar(id: number) {
         this.produtoService.findProdutoById(id).subscribe((response) => {
             // cria e adiciona no objeto
-            this.formulario.controls.id.setValue(id);
-            this.formulario.controls.nome.setValue(response.nome);
-            this.formulario.controls.descricao.setValue(response.descricao);
-            this.formulario.controls.preco.setValue(
+            this.formulario?.controls.id.setValue(id);
+            this.formulario?.controls.nome.setValue(response.nome);
+            this.formulario?.controls.descricao.setValue(response.descricao);
+            this.formulario?.controls.preco.setValue(
                 (response.preco + "").replace(".", ",")
             );
         });
